@@ -1,86 +1,91 @@
-# 📚 Projeto Ecosy
+# ![Logo Ecosy](./public/logo.svg) Ecosy - Gestão de Sementes
 
-> **Resumo rápido:** [Uma frase curta que descreve o objetivo do projeto. Exemplo: “Uma aplicação web para monitorar compostagem doméstica usando sensores IoT.”]
+O **Ecosy** é uma plataforma digital para a gestão, distribuição e rastreabilidade do programa de aquisição de **sementes crioulas** em Pernambuco.
 
----
-
-## 📖 Sobre o Projeto
-
-[Descreva aqui o que o projeto faz, qual problema resolve e qual foi a motivação por trás dele.]  
-Exemplo:
-
-> Este projeto foi desenvolvido com o objetivo de [melhorar, automatizar, simular, monitorar etc.] [descrição do problema ou contexto].  
-> Ele foi pensado para [usuários, empresas, estudantes etc.] que precisam de uma solução simples e eficiente para [benefício principal].
+O sistema conecta gestores públicos, técnicos de campo e agricultores familiares, substituindo o controle manual (planilhas, papel) por um fluxo de trabalho digital, eficiente e transparente.
 
 ---
 
-## ⚙️ Funcionalidades
+## ✨ Funcionalidades Principais
 
-- [✅ Funcionalidade 1 — breve descrição]
-- [✅ Funcionalidade 2 — breve descrição]
-- [✅ Funcionalidade 3 — breve descrição]
+O sistema é dividido em duas frentes principais, com funcionalidades e permissões distintas para cada perfil de usuário.
 
-_(Adicione ou remova conforme necessário)_
+### 🏛️ Portal Web (Ecosy Gestão) - Para Gestores e Técnicos
+- **Autenticação Segura:** Sistema de login por Email/Senha para usuários (Gestores, Técnicos).  
+- **Controle de Acesso (RBAC):** Visões e permissões diferentes para Gestores (acesso total) e Técnicos (acesso restrito aos seus beneficiários).  
+- **Dashboard Analítico:** Tela inicial com KPIs (indicadores-chave), gráficos e um feed de atividades recentes.  
+- **Gestão de Beneficiários:** CRUD (Criar, Ler, Atualizar, Deletar) de agricultores familiares.  
+- **Gestão de Lotes:** CRUD de lotes de sementes, desde o cadastro (planejamento) até a conclusão da distribuição.  
+- **Rastreabilidade de Entregas:** Acompanhamento em tempo real do progresso de um lote (ex: "65 de 87 entregas realizadas").  
+- **Gestão de Usuários (Admin):** Tela de Configurações restrita onde Gestores podem cadastrar, editar e desativar contas de Técnicos.  
 
----
-
-## 🧩 Tecnologias Utilizadas
-
-- **Linguagem principal:** [Python / JavaScript / C# / etc.]
-- **Bibliotecas / Frameworks:** [Ex: Flask, React, Pygame, Bootstrap, etc.]
-- **Banco de Dados (se houver):** [SQLite, MySQL, etc.]
-- **Outros:** [APIs, ferramentas externas, etc.]
 
 ---
 
-## 🚀 Como Executar o Projeto
+## 🛠️ Tecnologias Utilizadas (Stack)
 
-1. **Clone este repositório:**
+### Front-end (Este Repositório)
+- **Framework:** Next.js   
+- **Linguagem:** TypeScript  
+- **Estilização:** Tailwind CSS  
+- **Componentes UI:** shadcn/ui   
+- **Fontes:** Poppins (Padrão/Títulos) e Lato (Corpo)
 
-   ```bash
-   git clone https://github.com/[seu-usuario]/[nome-do-repositorio].git
 
-   ```
+---
 
-2. **Acesse a pasta do projeto:**
+## 📂 Arquitetura do Front-end
 
-   ```bash
-   cd [nome-do-repositorio]
+O front-end utiliza uma arquitetura baseada em **features** (Feature-Sliced Design) para organizar a lógica de negócios e manter os componentes desacoplados.
 
-   ```
+```
+/src/
+├── /app/                   # Rotas (App Router)
+│   ├── /(auth)/            # Rotas de autenticação (ex: /login)
+│   └── /(app)/             # Rotas protegidas (ex: /dashboard)
+│       └── layout.tsx      # Layout que verifica a autenticação
+│
+├── /components/            # Componentes de UI "burros" e reutilizáveis
+│   ├── /ui/                # Componentes do Shadcn (Button, Card, Input...)
+│   └── /layout/            # Componentes de layout (Header, Sidebar)
+│
+├── /features/              # "Módulos" - A inteligência do app
+│   ├── /auth/              # (ex: LoginForm.tsx)
+│   └── /beneficiarios/     # (ex: BeneficiariosTable.tsx)
+│
+├── /services/              # Camada de abstração de dados (Mock / API)
+│   ├── authService.ts
+│   └── beneficiariosService.ts
+│
+├── /lib/                   # Utilitários (ex: lib/utils.ts do shadcn)
 
-3. **Instale as dependências:**
+```
 
-   ```bash
-   [comando de instalação — ex: pip install -r requirements.txt]
+## 🚀 Como Rodar o Projeto (Front-end)
 
-   ```
+Este projeto utiliza **npm** (mas você pode usar yarn ou pnpm se preferir).
 
-4. **Execute o projeto:**
-   ```bash
-   [comando para rodar o projeto — ex: python main.py]
-   ```
+1. Clone o repositório:
 
-## 🗂️ Estrutura dos Scripts / Organização do Repositório
+```bash
+git clone https://github.com/[SEU_USUARIO]/[SEU_REPOSITORIO].git
+cd pi2-front
+```
 
-📁 nome-do-projeto/  
-│  
-├── 📄 README.md  
-├── 📄 requirements.txt  
-├── 📄 main.py  
-├── 📁 src/  
-│ ├── **init**.py  
-│ ├── modulo1.py  
-│ └── modulo2.py  
-├── 📁 assets/  
-│ └── imagens, sons, ícones...  
-└── 📁 tests/  
- └── test_modulo1.py
+2. Instale as dependências:
 
-## 👥 Equipe
+```bash
+npm install
+```
+3. Configure as variáveis de ambiente: (*DESCONSIDERAR NO MOMENTO*)
 
-- **Arthur Filipe** – arthur.filipe2402@gmail.com
-- **Filipe Xavier dos Santos** – xfilipe2006.santos@gmail.com
-- **Maria Cecília de Lima e Silva** – cecilmari33@gmail.com
-- **Maria Eduarda Pereira Vilarim** – vilarim051@gmail.com
-- **Matheus Alves** – matheusalves2906@gmail.com
+Obs: Inicialmente, o projeto irá usar dados mockados no /services/, então não é necessário um .env para a API. Este passo será necessário quando o backend for integrado.
+
+4. Rode o servidor de desenvolvimento:
+
+```
+npm run dev
+```
+
+5. Abra http://localhost:3000
+ no seu navegador.
