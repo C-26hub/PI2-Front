@@ -96,3 +96,11 @@ npm run dev
 
 5. Abra http://localhost:3000
  no seu navegador.
+
+
+## 👥 Equipe
+- **Arthur Filipe Rodrigues da Silva** – arthur.filipe2402@gmail.com
+- **Filipe Xavier dos Santos** – xfilipe2006.santos@gmail.com   
+- **Maria Cecília de Lima e Silva** – cecilmari33@gmail.com  
+- **Maria Eduarda Pereira Vilarim** – vilarim051@gmail.com
+- **Matheus Alves de Arruda** – matheusalves2906@gmail.com
