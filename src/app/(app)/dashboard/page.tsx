@@ -2,6 +2,7 @@
 import { KpiCard } from "@/features/dashboard/KpiCard";
 import { AlertBanner } from "@/features/dashboard/AlertBanner";
 import { getGestorDashboardData } from "@/services/dashboardService";
+import MapProviderWrapper from "@/features/dashboard/MapProviderWrapper";
 
 // Importe os ícones que o serviço mock vai usar
 import {
@@ -32,11 +33,8 @@ function GeoMapCard() {
           Distribuição Geográfica
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex h-64 items-center justify-center rounded-md bg-ecosy-gray">
-        <MapPin className="h-16 w-16 text-gray-400" />
-        <p className="ml-4 text-gray-400">
-          (Simulação do Mapa SVG de Pernambuco)
-        </p>
+      <CardContent className="px-4">
+        <MapProviderWrapper />
       </CardContent>
     </Card>
   );
@@ -93,7 +91,7 @@ export default async function DashboardPage() {
     <>
       <Header />
       <main className="flex-1 space-y-4 p-4 md:p-8 pt-6 bg-[#F4F7F4]">
-        <div className="w-full max-w-[1200px] mx-auto">
+        <div className="px-6 w-full max-w-[1200px] mx-auto">
           <h1 className="text-3xl font-heading font-medium tracking-tight mb-[28px]">
             Painel de Controle
           </h1>
