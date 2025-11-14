@@ -70,11 +70,11 @@ const getStatusColor = (status: string) => {
     case "Planejamento":
       return "bg-gray-200 text-black hover:bg-gray-300";
     case "Em Distribuição":
-      return "bg-[#AEDDFF] text-black hover:bg-[#93C5FD]"; // Azul claro
+      return "bg-[#AEDDFF] text-black hover:bg-[#93C5FD]"; 
     case "Concluído":
-      return "bg-ecosy-green text-black hover:bg-ecosy-green-dark"; // Verde
+      return "bg-ecosy-green text-black hover:bg-ecosy-green-dark"; 
     case "Cancelado":
-      return "bg-red-100 text-black hover:bg-red-200"; // Vermelho
+      return "bg-red-100 text-black hover:bg-red-200";
     default:
       return "bg-gray-100 text-black";
   }

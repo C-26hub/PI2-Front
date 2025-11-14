@@ -23,7 +23,6 @@ const gestorLinks = [
   { href: "/beneficiarios", label: "Beneficiários" },
   { href: "/lotes", label: "Ciclo de Sementes" },
   { href: "/relatorios", label: "Relatórios" },
-  { href: "/configuracoes", label: "Configurações" },
 ];
 
 const tecnicoLinks = [
