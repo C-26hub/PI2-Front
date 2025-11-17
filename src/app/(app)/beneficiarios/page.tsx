@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Search, Filter, ChevronDown } from "lucide-react";
+import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -25,10 +26,8 @@ export default async function BeneficiariosPage() {
 
       {/* ESTRUTURA DE LAYOUT IDÊNTICA A LOTES */}
       <main className="flex flex-col h-[calc(100vh-80px)] p-4 md:p-8 pt-6 bg-[#F4F7F4]">
-        
         {/* Wrapper Flexível */}
         <div className="w-full max-w-[1200px] mx-auto flex flex-col flex-1">
-          
           {/* 1. Cabeçalho da Página (Fixo, fora do card) */}
           <div className="flex items-center justify-between mb-6 shrink-0">
             <div>
@@ -41,15 +40,19 @@ export default async function BeneficiariosPage() {
             </div>
 
             <Button className="font-medium bg-[#4FA26F] hover:bg-[#266940] text-white shadow-sm flex items-center">
-              <Plus className="mr-2 h-4 w-4" />
-              Cadastrar Beneficiário
+              <Link
+                href="/beneficiarios/novo"
+                className="flex items-center cursor-pointer"
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Cadastrar Beneficiário
+              </Link>
             </Button>
           </div>
 
           {/* 2. O Card Único (Expansível) */}
           <Card className="border-none shadow-md flex-1 flex flex-col">
             <CardContent className="py-8 flex-1">
-              
               {/* Área de Filtros */}
               <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
                 <div className="flex items-center gap-2 flex-1 w-full">
@@ -67,7 +70,6 @@ export default async function BeneficiariosPage() {
 
                 {/* Botões de Filtro (Dropdowns) */}
                 <div className="flex items-center gap-3">
-                  
                   {/* Filtro de Status */}
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -85,7 +87,9 @@ export default async function BeneficiariosPage() {
                       <DropdownMenuItem>Todos</DropdownMenuItem>
                       <DropdownMenuItem>Ativo</DropdownMenuItem>
                       <DropdownMenuItem>Pendente</DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-600">Inativo</DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-600">
+                        Inativo
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
 
@@ -109,16 +113,13 @@ export default async function BeneficiariosPage() {
                       <DropdownMenuItem>Ouricuri</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-
                 </div>
               </div>
 
               {/* 3. A Tabela */}
               <BeneficiariosTable data={beneficiarios} />
-              
             </CardContent>
           </Card>
-
         </div>
       </main>
     </>
