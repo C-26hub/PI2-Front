@@ -23,13 +23,11 @@ export default async function BeneficiariosPage() {
   return (
     <>
       <Header />
-
-      {/* ESTRUTURA DE LAYOUT IDÊNTICA A LOTES */}
-      <main className="flex flex-col h-[calc(100vh-80px)] p-4 md:p-8 pt-6 bg-[#F4F7F4]">
-        {/* Wrapper Flexível */}
+      <main className="flex flex-col h-[calc(100vh-80px)] p-4 md:p-4 pt-6 bg-[#F4F7F4]">
         <div className="w-full max-w-[1200px] mx-auto flex flex-col flex-1">
-          {/* 1. Cabeçalho da Página (Fixo, fora do card) */}
-          <div className="flex items-center justify-between mb-6 shrink-0">
+          <Card className="border-none shadow-md flex-1 flex flex-col">
+            <CardContent className="py-8 flex-1">
+               <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-3xl font-heading font-medium tracking-tight text-ecosy-blue">
                 Beneficiários
@@ -49,10 +47,6 @@ export default async function BeneficiariosPage() {
               </Link>
             </Button>
           </div>
-
-          {/* 2. O Card Único (Expansível) */}
-          <Card className="border-none shadow-md flex-1 flex flex-col">
-            <CardContent className="py-8 flex-1">
               {/* Área de Filtros */}
               <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
                 <div className="flex items-center gap-2 flex-1 w-full">

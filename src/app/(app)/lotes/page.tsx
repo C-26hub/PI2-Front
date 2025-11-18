@@ -4,6 +4,7 @@ import { Plus, Search, Filter } from "lucide-react";
 import { getLotes } from "@/services/lotesService";
 import { LotesTable } from "@/features/lotes/LotesTable";
 import { Header } from "@/components/layout/Header";
+import Link from "next/link";
 
 import {
   DropdownMenu,
@@ -12,9 +13,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuCheckboxItem, 
+  DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react"; 
+import { ChevronDown } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -28,23 +29,27 @@ export default async function LotesPage() {
         <div className="w-full max-w-[1200px] mx-auto flex flex-col flex-1">
           <Card className="border-none shadow-md flex-1 flex flex-col">
             <CardContent className="py-8">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-3xl font-heading font-medium tracking-tight">
-                Ciclo de Sementes
-              </h1>
-              <p className="text-sm font-sans mt-1 font-medium ">
-                Gerencie a aquisição e distribuição dos lotes.
-              </p>
-            </div>
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h1 className="text-3xl font-heading font-medium tracking-tight">
+                    Ciclo de Sementes
+                  </h1>
+                  <p className="text-sm font-sans mt-1 font-medium ">
+                    Gerencie a aquisição e distribuição dos lotes.
+                  </p>
+                </div>
 
-            <Button className="font-medium bg-[#4FA26F] hover:bg-[#266940] text-white shadow-sm flex items-center">
-              <Plus className="mr-2 h-4 w-4" />
-              Criar Novo Lote
-            </Button>
-          </div>
+                <Button className="font-medium bg-[#4FA26F] hover:bg-[#266940] text-white shadow-sm flex items-center">
+                  <Link
+                    href="lotes/novo"
+                    className="flex items-center cursor-pointer"
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Criar Novo Lote
+                  </Link>
+                </Button>
+              </div>
 
-          
               <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
                 <div className="flex items-center gap-2 flex-1 w-full">
                   <div className="relative flex-1 max-w-md">
