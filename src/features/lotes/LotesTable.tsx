@@ -1,6 +1,7 @@
 "use client";
 
-import { Edit, Truck, Eye, MoreHorizontal } from "lucide-react";
+import { useState } from "react";
+import { Eye, Loader2, Truck } from "lucide-react";
 import { Lote, LoteStatus } from "@/types/Lote";
 import { useRouter } from "next/navigation";
 
@@ -14,29 +15,21 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 interface LotesTableProps {
   data: Lote[];
 }
 
-// Função auxiliar para definir a cor do Badge baseada no status
 const getStatusColor = (status: LoteStatus) => {
   switch (status) {
     case "Planejamento":
-      return "bg-[#DEDEDE]"; 
+      return "bg-[#DEDEDE]";
     case "Em Distribuição":
-      return "bg-[#AEDDFF]"; 
+      return "bg-[#AEDDFF]";
     case "Concluído":
-      return "bg-[#EEFFAE]"; 
+      return "bg-[#EEFFAE]";
     case "Cancelado":
-      return "bg-[#FFAEAE]"; 
+      return "bg-[#FFAEAE]";
     default:
       return "bg-gray-500";
   }
@@ -44,10 +37,13 @@ const getStatusColor = (status: LoteStatus) => {
 
 export function LotesTable({ data }: LotesTableProps) {
   const router = useRouter();
+  const [loadingId, setLoadingId] = useState<string | null>(null);
 
-  const handleRowClick = (loteId: string) => {
-    router.push(`/lotes/${loteId}`);
+  const handleRowClick = (id: string) => {
+    setLoadingId(id); 
+    router.push(`/lotes/${id}`);
   };
+
   return (
     <div className="rounded-md border">
       <Table>
@@ -56,86 +52,67 @@ export function LotesTable({ data }: LotesTableProps) {
             <TableHead className="font-bold text-ecosy-blue">Código</TableHead>
             <TableHead className="font-bold text-ecosy-blue">Semente</TableHead>
             <TableHead className="font-bold text-ecosy-blue">Origem</TableHead>
-            <TableHead className="font-bold text-ecosy-blue text-right">
-              Qtd. (kg)
-            </TableHead>
-            <TableHead className="font-bold text-ecosy-blue">
-              Cadastro
-            </TableHead>
+            <TableHead className="font-bold text-ecosy-blue text-right">Qtd. (kg)</TableHead>
+            <TableHead className="font-bold text-ecosy-blue">Cadastro</TableHead>
             <TableHead className="font-bold text-ecosy-blue">Status</TableHead>
-            <TableHead className="text-right font-bold text-ecosy-blue">
-              Ações
-            </TableHead>
+            <TableHead className="text-right font-bold text-ecosy-blue">Ações</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((lote) => (
-            <TableRow
-              key={lote.id}
-              onClick={() => handleRowClick(lote.id)}
-              className="cursor-pointer hover:bg-gray-50 transition-colors"
-            >
-              <TableCell className="font-medium">{lote.codigo}</TableCell>
-              <TableCell>{lote.semente}</TableCell>
-              <TableCell className="">{lote.origem}</TableCell>
-              <TableCell className="text-right">
-                {lote.quantidade.toLocaleString("pt-BR")}
-              </TableCell>
-              <TableCell>{lote.dataCadastro}</TableCell>
-              <TableCell>
-                <Badge
-                  className={`${getStatusColor(
-                    lote.status
-                  )} text-[#2F2F2F] border-none`}
-                >
-                  {lote.status}
-                </Badge>
-              </TableCell>
-              <TableCell className="text-right">
-                {/* Botões de Ação Rápidos */}
-                <div className="flex justify-end gap-2">
-                  {/* Rastrear (Só aparece se estiver em distribuição ou concluído) */}
-                  {(lote.status === "Em Distribuição" ||
-                    lote.status === "Concluído") && (
+          {data.map((lote) => {
+            const isLoading = loadingId === lote.id;
+
+            return (
+              <TableRow
+                key={lote.id}
+                className="hover:bg-gray-50"
+              >
+                <TableCell className="font-medium py-4">{lote.codigo}</TableCell>
+                <TableCell className="py-4">{lote.semente}</TableCell>
+                <TableCell className="py-4">{lote.origem}</TableCell>
+                <TableCell className="text-right py-4">
+                  {lote.quantidade.toLocaleString("pt-BR")}
+                </TableCell>
+                <TableCell className="py-4">{lote.dataCadastro}</TableCell>
+                <TableCell className="py-4">
+                  <Badge
+                    className={`${getStatusColor(lote.status)} text-[#2F2F2F] border-none`}
+                  >
+                    {lote.status}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-right py-4">
+                  
+                  <div className="flex justify-end">
                     <Button
                       variant="ghost"
-                      size="icon"
-                      title="Rastrear Lote"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        console.log("Clicou em Rastrear"); // Sua lógica futura aqui
-                      }}
+                      size="sm"
+                      disabled={isLoading}
+                      className="text-[#4FA26F] cursor-pointer hover:text-[#4FA26F] hover:bg-[#F4F7F4] font-medium border border-[#4FA26F] min-w-[130px]"
+                      onClick={() => handleRowClick(lote.id)}
                     >
-                      <Truck className="h-4 w-4 text-ecosy-blue" />
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Aguarde...
+                        </>
+                      ) : (
+                        <>
+                          {lote.status === "Em Distribuição" ? (
+                             <Truck className="w-4 h-4 mr-2" />
+                          ) : (
+                             <Eye className="w-4 h-4 mr-2" />
+                          )}
+                          Ver Detalhes
+                        </>
+                      )}
                     </Button>
-                  )}
-
-                  {/* Editar (Só aparece se não estiver cancelado) */}
-                  {lote.status !== "Cancelado" &&
-                    lote.status !== "Concluído" && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        title="Editar Lote"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          console.log("Clicou em Editar");
-                        }}
-                      >
-                        <Edit className="h-4 w-4 text-ecosy-blue" />
-                      </Button>
-                    )}
-
-                  {/* Ver Detalhes (Sempre aparece) */}
-                  {lote.status === "Concluído" && (
-                    <Button variant="ghost" size="icon" title="Ver Histórico">
-                      <Eye className="h-4 w-4 text-ecosy-blue" />
-                    </Button>
-                  )}
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
+                  </div>
+                  
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </div>

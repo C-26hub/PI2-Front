@@ -1,6 +1,7 @@
 "use client";
 
-import { Edit, Eye } from "lucide-react";
+import { useState } from "react";
+import { Eye, Loader2 } from "lucide-react"; 
 import { Beneficiario, BeneficiarioStatus } from "@/types/Beneficiario";
 import { useRouter } from "next/navigation";
 
@@ -34,8 +35,10 @@ const getStatusColor = (status: BeneficiarioStatus) => {
 
 export function BeneficiariosTable({ data }: BeneficiariosTableProps) {
   const router = useRouter();
+  const [loadingId, setLoadingId] = useState<string | null>(null);
 
   const handleRowClick = (id: string) => {
+    setLoadingId(id);
     router.push(`/beneficiarios/${id}`);
   };
 
@@ -54,44 +57,51 @@ export function BeneficiariosTable({ data }: BeneficiariosTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((item) => (
-            <TableRow 
-              key={item.id} 
-              className="cursor-pointer hover:bg-gray-50"
-              onClick={() => handleRowClick(item.id)}
-            >
-              <TableCell className="font-medium">{item.nome}</TableCell>
-              <TableCell>{item.cpf}</TableCell>
-              <TableCell>{item.cidade}</TableCell>
-              <TableCell className="text-muted-foreground">{item.associacao}</TableCell>
-              <TableCell>{item.tecnicoResponsavel}</TableCell>
-              <TableCell>
-                <Badge className={`${getStatusColor(item.status)} text-black border-none`}>
-                  {item.status}
-                </Badge>
-              </TableCell>
-              <TableCell className="text-right">
-                <div 
-                  className="flex justify-end gap-2" 
-                  onClick={(e) => e.stopPropagation()} 
-                >
-                  <Button variant="ghost" size="icon" title="Editar Cadastro">
-                    <Edit className="h-4 w-4 text-ecosy-blue" />
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    title="Ver Perfil"
-                    // O botão "Ver Perfil" faz a mesma coisa que clicar na linha, 
-                    // então podemos chamar a função manualmente aqui também
-                    onClick={() => handleRowClick(item.id)}
-                  >
-                    <Eye className="h-4 w-4 text-ecosy-blue" />
-                  </Button>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
+          {data.map((item) => {
+            const isLoading = loadingId === item.id;
+
+            return (
+              <TableRow 
+                key={item.id} 
+                className="hover:bg-gray-50"
+              >           
+                <TableCell className="font-medium py-4">{item.nome}</TableCell>
+                <TableCell className="py-4">{item.cpf}</TableCell>             
+                <TableCell className="py-4">{item.cidade}</TableCell>              
+                <TableCell className="text-muted-foreground py-4">{item.associacao}</TableCell>            
+                <TableCell className="py-4">{item.tecnicoResponsavel}</TableCell>               
+                <TableCell className="py-4">
+                  <Badge className={`${getStatusColor(item.status)} text-black border-none`}>
+                    {item.status}
+                  </Badge>
+                </TableCell>
+                
+                <TableCell className="text-right py-4">
+                  <div className="flex justify-end">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      disabled={isLoading}
+                      className="text-[#4FA26F] cursor-pointer hover:text-white hover:bg-[#4FA26F] font-medium border border-[#4FA26F] min-w-[110px]"
+                      onClick={() => handleRowClick(item.id)}
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          Aguarde...
+                        </>
+                      ) : (
+                        <>
+                          <Eye className="w-4 h-4 mr-1" />
+                          Ver Perfil
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </div>
