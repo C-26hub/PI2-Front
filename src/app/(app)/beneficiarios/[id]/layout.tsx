@@ -52,15 +52,13 @@ export default async function BeneficiarioLayout({
 
               {/* CONTEÚDO */}
               <div className="flex-1 flex flex-col h-full bg-white min-w-0">
-                
-                {/* Cabeçalho Interno (Fixo no topo do scroll) */}
                 <div className="p-8 border-b bg-white">
                   <div className="flex items-center gap-4">
                     <Button 
                       variant="ghost" 
                       size="icon" 
                       asChild 
-                      className="hover:bg-gray-100 rounded-full -ml-2" // -ml-2 para alinhar visualmente o ícone com o texto abaixo
+                      className="hover:bg-gray-100 rounded-full -ml-2" 
                     >
                       <Link href="/beneficiarios">
                         <ArrowLeft className="h-6 w-6 text-ecosy-blue" />
@@ -68,19 +66,17 @@ export default async function BeneficiarioLayout({
                     </Button>
                     
                     <div className="flex items-center gap-3">
-                      <h1 className="text-2xl font-heading font-bold text-ecosy-blue truncate">
+                      <h1 className="text-3xl font-heading font-bold truncate">
                         {beneficiario.nome}
                       </h1>
-                      <Badge className="bg-ecosy-green hover:bg-ecosy-green-dark text-white border-none text-sm px-3 py-1 shrink-0">
+                      <Badge className="bg-[#EEFFAE] text-black border-none shadow-none text-sm px-3 py-1 shrink-0">
                         {beneficiario.status}
                       </Badge>
                     </div>
                   </div>
                 </div>
 
-                {/* Área de Scroll do Conteúdo */}
                 <div className="flex-1 p-8 overflow-y-auto">
-                   {/* Aqui limitamos a largura do texto para leitura confortável */}
                    <div className="max-w-3xl">
                       {children}
                    </div>

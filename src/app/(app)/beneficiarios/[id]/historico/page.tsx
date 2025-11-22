@@ -22,10 +22,8 @@ export default async function HistoricoPage({ params }: PageProps) {
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       <div>
-        <h2 className="text-xl font-heading font-bold text-ecosy-blue mb-1">Histórico de Recebimentos</h2>
-        <p className="text-sm text-muted-foreground">Lista de sementes entregues ao longo das safras.</p>
+        <h2 className="text-xl font-heading font-bold text-ecosy-blue mb-1">Sementes Recebidas por Safra</h2>
       </div>
-      <Separator />
 
       <div className="border rounded-md">
         <Table>

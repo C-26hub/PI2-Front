@@ -19,7 +19,6 @@ interface BeneficiariosTableProps {
   data: Beneficiario[];
 }
 
-// Mantendo suas cores personalizadas
 const getStatusColor = (status: BeneficiarioStatus) => {
   switch (status) {
     case "Ativo":
@@ -59,7 +58,6 @@ export function BeneficiariosTable({ data }: BeneficiariosTableProps) {
             <TableRow 
               key={item.id} 
               className="cursor-pointer hover:bg-gray-50"
-              // 1. ADICIONADO: O clique na linha
               onClick={() => handleRowClick(item.id)}
             >
               <TableCell className="font-medium">{item.nome}</TableCell>
@@ -73,7 +71,6 @@ export function BeneficiariosTable({ data }: BeneficiariosTableProps) {
                 </Badge>
               </TableCell>
               <TableCell className="text-right">
-                {/* 2. ADICIONADO: stopPropagation para evitar conflito de clique */}
                 <div 
                   className="flex justify-end gap-2" 
                   onClick={(e) => e.stopPropagation()} 
