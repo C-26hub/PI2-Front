@@ -3,6 +3,7 @@ import { Poppins, Lato } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { VLibras } from "@/components/accessibility/VLibras";
+import VLibrasPlugin from "@/components/accessibility/VLibrasPlugin";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -38,7 +39,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
 
-        <VLibras />
+        <VLibrasPlugin />
       </body>
     </html>
   );

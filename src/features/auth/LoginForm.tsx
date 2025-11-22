@@ -1,11 +1,17 @@
-"use client"
-import { Logo } from "@/components/layout/Logo";
-import * as z from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import Link from "next/link"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { Logo } from "@/components/layout/Logo";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie"; 
+import { login } from "@/services/authService"; 
+import { Loader2 } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,44 +19,56 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
-// 1. Defina o schema de validação com Zod
 const formSchema = z.object({
-  email: z.string().email({
-    message: "Por favor, insira um email válido.",
-  }),
-  senha: z.string().min(6, {
-    message: "A senha deve ter no mínimo 6 caracteres.",
-  }),
-})
+  email: z.string().email({ message: "Insira um email válido." }),
+  senha: z.string().min(1, { message: "Digite sua senha." }), 
+});
 
 export function LoginForm() {
-  
-  // 2. Defina o formulário usando react-hook-form
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      senha: "",
-    },
-  })
+    defaultValues: { email: "", senha: "" },
+  });
 
-  // 3. Defina o handler de submit
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // AQUI é onde você fará a chamada para o backend (AuthService)
-    // Por enquanto, vamos apenas logar os dados
-    console.log("Dados do Login:", values)
-    // (Simulando uma chamada de API...)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const response = await login(values.email, values.senha);
+
+      if (response.success && response.user) {
+        Cookies.set("ecosy_token", response.user.token, { expires: 1 }); // Expira em 1 dia
+        Cookies.set("ecosy_user", JSON.stringify(response.user), { expires: 1 });
+
+        if (response.user.role === "gestor") {
+          router.push("/dashboard");
+        } else {
+          router.push("/meu-painel");
+        }
+      } else {
+        setError(response.error || "Falha ao entrar.");
+      }
+    } catch (err) {
+      setError("Erro de conexão. Tente novamente.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -65,17 +83,22 @@ export function LoginForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
+            
+            {/* Exibe erro se houver */}
+            {error && (
+              <Alert variant="destructive" className="mb-4 bg-red-50 text-red-900 border-red-200">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="">Email</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input 
-                      placeholder="ana.cecilia@ipa.pe.gov.br" 
-                      {...field} 
-                    />
+                    <Input placeholder="ana.cecilia@ipa.pe.gov.br" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -86,13 +109,9 @@ export function LoginForm() {
               name="senha"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="">Senha</FormLabel>
+                  <FormLabel>Senha</FormLabel>
                   <FormControl>
-                    <Input 
-                      type="password" 
-                      placeholder="••••••••" 
-                      {...field} 
-                    />
+                    <Input type="password" placeholder="••••••••" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -100,7 +119,7 @@ export function LoginForm() {
             />
             <div className="flex justify-center mt-[32px] mb-[40px]">
               <Link
-                href="/esqueci-minha-senha" // (Você precisará criar esta página)
+                href="/esqueci-minha-senha"
                 className="text-sm font-medium text-[#4D8965] hover:underline"
               >
                 Esqueceu sua senha?
@@ -108,19 +127,26 @@ export function LoginForm() {
             </div>
           </CardContent>
           <CardFooter>
-            <Link href="/dashboard" className="w-full  hover:bg-[#407554]">
+            {/* REMOVIDO O LINK QUE ENVOLVIA O BOTÃO */}
+            {/* O redirecionamento agora é feito via router.push no onSubmit */}
             <Button
-              variant="greenCustom"
+              // variant="greenCustom" (Se tiver configurado)
               type="submit"
-              className="w-full  hover:bg-[#407554]"
-              
+              disabled={isLoading}
+              className="w-full hover:bg-[#407554] bg-[#4D8965]"
             >
-              Entrar
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Entrando...
+                </>
+              ) : (
+                "Entrar"
+              )}
             </Button>
-            </Link>
           </CardFooter>
         </form>
       </Form>
     </Card>
-  )
+  );
 }

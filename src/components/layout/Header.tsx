@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, LogOut, User } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { logout } from "@/services/authService";
 
 import {
   DropdownMenu,
@@ -17,7 +19,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Logo } from "./Logo";
 
-// 1. Definimos as listas de links separadas
 const gestorLinks = [
   { href: "/dashboard", label: "Painel de Controle" },
   { href: "/beneficiarios", label: "Beneficiários" },
@@ -32,9 +33,14 @@ const tecnicoLinks = [
 ];
 
 export function Header() {
+  const router = useRouter();
   const pathname = usePathname();
 
-  // --- DADOS MOCKADOS ---
+  const handleLogout = async () => {
+    await logout();
+    router.push("/"); 
+  };
+
   const user = {
     name: "Ana Cecília",
     email: "ana.cecilia@ipa.pe.gov.br",
@@ -56,7 +62,6 @@ export function Header() {
         <Logo width={120} height={50} />
       </Link>
 
-      {/* Menu de Navegação Dinâmico */}
       <nav className="hidden md:flex items-center space-x-4 lg:space-x-6 ml-6 h-full">
         {navLinks.map((link) => {
           const isActive = pathname.startsWith(link.href);
@@ -66,12 +71,12 @@ export function Header() {
               key={link.href}
               href={link.href}
               className={cn(
-                "relative h-full flex items-center text-sm font-medium transition-colors text-[#2F2F2F]",               
+                "relative h-full flex items-center text-sm font-medium transition-colors text-[#2F2F2F]",
                 // --- A ANIMAÇÃO DA LINHA ---
                 "after:content-[''] after:absolute after:left-0 after:bottom-5 after:h-[3px] after:bg-[#4D8965] after:transition-all after:duration-300",
 
                 isActive
-                  ? "after:w-full text-ecosy-green" 
+                  ? "after:w-full text-ecosy-green"
                   : "after:w-0 hover:after:w-full hover:text-ecosy-green"
               )}
             >
@@ -83,7 +88,6 @@ export function Header() {
 
       <div className="flex-1" />
 
-      {/* Menu do Usuário */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -124,7 +128,10 @@ export function Header() {
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem className="cursor-pointer text-red-600">
+          <DropdownMenuItem
+            className="cursor-pointer text-red-600"
+            onClick={handleLogout}
+          >
             <LogOut className="mr-2 h-4 w-4" />
             <span>Sair</span>
           </DropdownMenuItem>

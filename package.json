@@ -20,6 +20,7 @@
     "@vis.gl/react-google-maps": "^1.7.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "js-cookie": "^3.0.5",
     "jspdf": "^3.0.3",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.553.0",
@@ -29,10 +30,12 @@
     "react-hook-form": "^7.66.0",
     "recharts": "^3.4.1",
     "tailwind-merge": "^3.4.0",
+    "vlibras-nextjs": "^1.1.2",
     "zod": "^4.1.12"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
