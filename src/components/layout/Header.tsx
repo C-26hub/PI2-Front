@@ -66,13 +66,12 @@ export function Header() {
               key={link.href}
               href={link.href}
               className={cn(
-                // --- ESTILIZAÇÃO BASE MANTIDA ---
                 "relative h-full flex items-center text-sm font-medium transition-colors text-[#2F2F2F]",               
                 // --- A ANIMAÇÃO DA LINHA ---
                 "after:content-[''] after:absolute after:left-0 after:bottom-5 after:h-[3px] after:bg-[#4D8965] after:transition-all after:duration-300",
 
                 isActive
-                  ? "after:w-full font-semibold text-ecosy-green" 
+                  ? "after:w-full text-ecosy-green" 
                   : "after:w-0 hover:after:w-full hover:text-ecosy-green"
               )}
             >

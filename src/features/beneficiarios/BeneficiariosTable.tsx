@@ -2,6 +2,7 @@
 
 import { Edit, Eye } from "lucide-react";
 import { Beneficiario, BeneficiarioStatus } from "@/types/Beneficiario";
+import { useRouter } from "next/navigation";
 
 import {
   Table,
@@ -18,7 +19,7 @@ interface BeneficiariosTableProps {
   data: Beneficiario[];
 }
 
-// pode ser movido para utils no futuro
+// Mantendo suas cores personalizadas
 const getStatusColor = (status: BeneficiarioStatus) => {
   switch (status) {
     case "Ativo":
@@ -33,6 +34,12 @@ const getStatusColor = (status: BeneficiarioStatus) => {
 };
 
 export function BeneficiariosTable({ data }: BeneficiariosTableProps) {
+  const router = useRouter();
+
+  const handleRowClick = (id: string) => {
+    router.push(`/beneficiarios/${id}`);
+  };
+
   return (
     <div className="rounded-md border">
       <Table>
@@ -49,7 +56,12 @@ export function BeneficiariosTable({ data }: BeneficiariosTableProps) {
         </TableHeader>
         <TableBody>
           {data.map((item) => (
-            <TableRow key={item.id} className="cursor-pointer hover:bg-gray-50">
+            <TableRow 
+              key={item.id} 
+              className="cursor-pointer hover:bg-gray-50"
+              // 1. ADICIONADO: O clique na linha
+              onClick={() => handleRowClick(item.id)}
+            >
               <TableCell className="font-medium">{item.nome}</TableCell>
               <TableCell>{item.cpf}</TableCell>
               <TableCell>{item.cidade}</TableCell>
@@ -61,11 +73,22 @@ export function BeneficiariosTable({ data }: BeneficiariosTableProps) {
                 </Badge>
               </TableCell>
               <TableCell className="text-right">
-                <div className="flex justify-end gap-2">
+                {/* 2. ADICIONADO: stopPropagation para evitar conflito de clique */}
+                <div 
+                  className="flex justify-end gap-2" 
+                  onClick={(e) => e.stopPropagation()} 
+                >
                   <Button variant="ghost" size="icon" title="Editar Cadastro">
                     <Edit className="h-4 w-4 text-ecosy-blue" />
                   </Button>
-                  <Button variant="ghost" size="icon" title="Ver Perfil">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    title="Ver Perfil"
+                    // O botão "Ver Perfil" faz a mesma coisa que clicar na linha, 
+                    // então podemos chamar a função manualmente aqui também
+                    onClick={() => handleRowClick(item.id)}
+                  >
                     <Eye className="h-4 w-4 text-ecosy-blue" />
                   </Button>
                 </div>

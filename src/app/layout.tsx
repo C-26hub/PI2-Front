@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { Poppins, Lato  } from "next/font/google";
+import { Poppins, Lato } from "next/font/google";
 import "./globals.css";
+import Script from "next/script";
+import { VLibras } from "@/components/accessibility/VLibras";
 
-const poppins  = Poppins({
+const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"], 
+  weight: ["400", "500", "600", "700"],
 });
 
 const lato = Lato({
@@ -30,6 +32,13 @@ export default function RootLayout({
         className={`${poppins.variable} ${lato.variable} ${poppins.className}`}
       >
         {children}
+
+        <Script
+          src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js"
+          strategy="afterInteractive"
+        />
+
+        <VLibras />
       </body>
     </html>
   );
