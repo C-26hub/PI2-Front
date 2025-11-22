@@ -1,30 +1,22 @@
-// src/app/(app)/dashboard/page.tsx
 import { KpiCard } from "@/features/dashboard/KpiCard";
 import { AlertBanner } from "@/features/dashboard/AlertBanner";
 import { getGestorDashboardData } from "@/services/dashboardService";
 import MapProviderWrapper from "@/features/dashboard/MapProviderWrapper";
+import SeedsChart from "@/features/dashboard/SeedsChart";
 
-// Importe os ícones que o serviço mock vai usar
 import {
-  Users,
-  Truck,
-  Package,
-  MapPin,
   BarChart2,
   History,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Header } from "@/components/layout/Header";
 
-// Mapeia os nomes de string (do serviço) para os componentes de ícone
 const iconMap = {
   Users: "/icons/users.svg",
   Truck: "/icons/truck.svg",
   Package: "/icons/seed.svg",
 };
 
-// --- Componentes Mockados (Apenas para este layout) ---
-// (Você pode movê-los para /features/dashboard/ depois)
 function GeoMapCard() {
   return (
     <Card>
@@ -45,12 +37,11 @@ function ChartCard() {
     <Card>
       <CardHeader>
         <CardTitle className="font-heading text-ecosy-blue">
-          Total Entregue por Semente
+          Total Entregue por Semente (Kg)
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex h-64 items-center justify-center rounded-md bg-ecosy-gray">
-        <BarChart2 className="h-16 w-16 text-gray-400" />
-        <p className="ml-4 text-gray-400">(Simulação do Gráfico de Barras)</p>
+      <CardContent className="h-80 w-full pl-0 p-4 pb-4">
+        <SeedsChart />
       </CardContent>
     </Card>
   );
@@ -115,7 +106,6 @@ export default async function DashboardPage() {
 
           {/* Main Content Grid (2 colunas) */}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
-            {/* Coluna da Esquerda (Mapa e Gráfico) */}
             <div className="lg:col-span-4 space-y-4">
               <GeoMapCard />
               <ChartCard />
