@@ -103,15 +103,15 @@ export function Header() {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="w-56" align="end" forceMount>
-          <DropdownMenuLabel className="font-normal">
+          <DropdownMenuLabel className="font-normal py-6 bg-[#F7F7F7]">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none font-heading">
+              <p className="text-xl font-semibold leading-none font-heading">
                 {user.name}
               </p>
               <p className="text-xs leading-none text-muted-foreground">
                 {user.email}
               </p>
-              <p className="text-xs font-bold text-ecosy-green uppercase mt-1">
+              <p className="text-xs font-semibold text-ecosy-green uppercase mt-1">
                 {user.role}
               </p>
             </div>

@@ -12,14 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  FileText,
-  Download,
-  Calendar,
-  Filter,
-  FileSpreadsheet,
-  Loader2, 
-} from "lucide-react";
+import { Download, Calendar, Loader2 } from "lucide-react";
 
 import { getRelatorioEntregas } from "@/services/reportService";
 import { generatePDF } from "@/lib/pdfGenerator";
@@ -32,9 +25,8 @@ export default function RelatoriosPage() {
 
     try {
       const data = await getRelatorioEntregas();
-      
+
       generatePDF(data);
-      
     } catch (error) {
       console.error("Erro ao gerar relatório:", error);
       alert("Erro ao gerar o relatório. Tente novamente.");
@@ -46,21 +38,20 @@ export default function RelatoriosPage() {
   return (
     <>
       <Header />
-      <main className="flex flex-col h-[calc(100vh-80px)] p-4 md:p-8 pt-6 bg-[#F4F7F4]">
+      <main className="flex flex-col h-[calc(100vh-80px)] p-4 md:p-4 pt-6 bg-[url('/images/bg-alternative2.jpg')] bg-cover bg-center">
         <div className="w-full max-w-[1200px] mx-auto flex flex-col flex-1">
-          <div className="flex items-center justify-between mb-6 shrink-0">
-            <div>
-              <h1 className="text-3xl font-heading font-medium tracking-tight text-ecosy-blue">
-                Relatórios e Auditoria
-              </h1>
-              <p className="text-sm font-sans mt-1 font-medium text-muted-foreground">
-                Gere relatórios detalhados para prestação de contas.
-              </p>
-            </div>
-          </div>
-
           <Card className="border-none shadow-md flex-1 flex flex-col overflow-hidden">
             <CardContent className="p-8 flex-1 overflow-y-auto">
+              <div className="flex items-center justify-between mb-12 shrink-0">
+                <div>
+                  <h1 className="text-3xl font-heading font-medium tracking-tight text-ecosy-blue">
+                    Relatórios e Auditoria
+                  </h1>
+                  <p className="text-sm font-sans mt-1 font-medium text-muted-foreground">
+                    Gere relatórios detalhados para prestação de contas.
+                  </p>
+                </div>
+              </div>
               <div className="mb-10">
                 <div className="flex items-center gap-2 mb-6">
                   <h2 className="text-lg font-heading font-semibold text-ecosy-blue">
@@ -97,7 +88,9 @@ export default function RelatoriosPage() {
                         <SelectValue placeholder="Selecione o período..." />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="safra_atual">Safra Atual (2025)</SelectItem>
+                        <SelectItem value="safra_atual">
+                          Safra Atual (2025)
+                        </SelectItem>
                         <SelectItem value="30_dias">Últimos 30 Dias</SelectItem>
                       </SelectContent>
                     </Select>
@@ -128,9 +121,9 @@ export default function RelatoriosPage() {
                       Planilha (.CSV)
                     </Button>
                     */}
-                    
-                    <Button 
-                      onClick={handleGeneratePDF} 
+
+                    <Button
+                      onClick={handleGeneratePDF}
                       disabled={isGenerating}
                       className="h-[40px] bg-[#4FA26F] hover:bg-[#266940] px-8 text-white"
                     >
@@ -192,8 +185,6 @@ export default function RelatoriosPage() {
                       </Button>
                     </div>
                   </div>
-                  
-                  
                 </div>
               </div>
             </CardContent>

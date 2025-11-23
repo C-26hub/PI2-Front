@@ -7,7 +7,7 @@ export default function ProfilePage() {
     <>
       <Header />
 
-      <main className="flex flex-col min-h-[calc(100vh-80px)] p-4 md:p-8 pt-6 bg-[#F4F7F4]">
+      <main className="flex flex-col min-h-[calc(100vh-80px)] p-4 md:p-8 pt-6 bg-[url('/images/bg-alternative2.jpg')] bg-cover bg-center">
         <div className="w-full max-w-[1200px] mx-auto flex flex-col flex-1">
           <Card className="border-none shadow-md flex-1">
             <CardContent className="p-8 md:p-12">
