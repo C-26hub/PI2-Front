@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, Users } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Logo } from "./Logo";
 
@@ -120,9 +120,18 @@ export function Header() {
           <DropdownMenuSeparator />
 
           <DropdownMenuItem asChild className="cursor-pointer">
+            <Link href="/configuracoes/usuarios">
+              <Users className="mr-2 h-4 w-4" />
+              <span>Gestão de usuários</span>
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem asChild className="cursor-pointer">
             <Link href="/perfil">
               <User className="mr-2 h-4 w-4" />
-              <span>Meu Perfil</span>
+              <span>Meu perfil</span>
             </Link>
           </DropdownMenuItem>
 
