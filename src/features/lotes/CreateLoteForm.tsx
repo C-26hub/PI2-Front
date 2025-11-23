@@ -207,7 +207,6 @@ export function CreateLoteForm() {
               </div>
             )}
 
-            {/* ETAPA 3: FINALIZAÇÃO */}
             {currentStep === 3 && (
               <div className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
                 <FormField

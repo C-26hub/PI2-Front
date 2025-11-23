@@ -88,7 +88,7 @@ export function LotesTable({ data }: LotesTableProps) {
                       variant="ghost"
                       size="sm"
                       disabled={isLoading}
-                      className="text-[#4FA26F] cursor-pointer hover:text-[#4FA26F] hover:bg-[#F4F7F4] font-medium border border-[#4FA26F] min-w-[130px]"
+                      className="text-[#4FA26F] cursor-pointer  hover:text-white hover:bg-[#4FA26F] font-medium border border-[#4FA26F] min-w-[130px]"
                       onClick={() => handleRowClick(lote.id)}
                     >
                       {isLoading ? (

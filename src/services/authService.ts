@@ -1,3 +1,4 @@
+// src/services/authService.ts
 import Cookies from "js-cookie";
 
 export interface LoginResponse {
@@ -6,54 +7,47 @@ export interface LoginResponse {
     name: string;
     email: string;
     role: "gestor" | "tecnico";
-    token: string; // Simulando um JWT
+    token: string;
   };
   error?: string;
 }
 
-const MOCK_USERS = [
-  {
-    email: "ana@ipa.gov.br",
-    password: "123", 
-    name: "Ana Cecília",
-    role: "gestor" as const,
-  },
-  {
-    email: "jonas.pereira@ipa.pe.gov.br",
-    password: "123",
-    name: "Jonas Pereira",
-    role: "tecnico" as const,
-  },
-];
+// PERFIL ÚNICO (GESTOR)
+const PERFIL_PADRAO = {
+  name: "Ana Cecília Lima",
+  role: "gestor" as const, // Força sempre ser gestor
+  token: "token-gestor-123",
+};
 
 export const login = async (email: string, senha: string): Promise<LoginResponse> => {
-  console.log("Chamando API de Login (Mock)...", { email });
+  console.log("Login Simulado (Modo Teste de Usabilidade):", { email });
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  // Simula um delay para dar feedback visual (spinner)
+  await new Promise((resolve) => setTimeout(resolve, 800));
 
-  const user = MOCK_USERS.find((u) => u.email === email && u.password === senha);
-
-  if (user) {
-    return {
-      success: true,
-      user: {
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        token: "fake-jwt-token-123456", // Token falso
-      },
-    };
-  }
-
-  return { success: false, error: "Email ou senha inválidos." };
+  // --- LÓGICA SIMPLIFICADA ---
+  // Aceita qualquer coisa e sempre retorna sucesso como Gestor.
+  return {
+    success: true,
+    user: {
+      ...PERFIL_PADRAO,
+      email: email, // Mantém o email que a pessoa digitou para parecer personalizado
+    },
+  };
 };
 
 export const logout = async (): Promise<void> => {
   Cookies.remove("ecosy_token");
   Cookies.remove("ecosy_user");
-  
-// No futuro: Chama o backend para invalidar a sessão
-  // await fetch('/api/auth/logout', { method: 'POST' });
-  
-  console.log("Usuário deslogado com sucesso.");
+};
+
+// Mocks auxiliares para não quebrar o resto
+export const requestPasswordReset = async (email: string) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  return { success: true };
+};
+
+export const resetPassword = async (token: string, novaSenha: string) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  return { success: true };
 };
