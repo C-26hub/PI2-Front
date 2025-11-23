@@ -84,7 +84,6 @@ export function LoginForm() {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
             
-            {/* Exibe erro se houver */}
             {error && (
               <Alert variant="destructive" className="mb-4 bg-red-50 text-red-900 border-red-200">
                 <AlertDescription>{error}</AlertDescription>
@@ -98,7 +97,7 @@ export function LoginForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="ana.cecilia@ipa.pe.gov.br" {...field} />
+                    <Input placeholder="nome@email.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -127,13 +126,11 @@ export function LoginForm() {
             </div>
           </CardContent>
           <CardFooter>
-            {/* REMOVIDO O LINK QUE ENVOLVIA O BOTÃO */}
-            {/* O redirecionamento agora é feito via router.push no onSubmit */}
+
             <Button
-              // variant="greenCustom" (Se tiver configurado)
               type="submit"
               disabled={isLoading}
-              className="w-full hover:bg-[#407554] bg-[#4D8965]"
+              className="w-full hover:bg-[#407554] bg-[#4D8965] cursor-pointer"
             >
               {isLoading ? (
                 <>
