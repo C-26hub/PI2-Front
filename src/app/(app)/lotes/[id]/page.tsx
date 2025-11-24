@@ -79,7 +79,9 @@ const getStatusColor = (status: string) => {
 
 export default async function LoteDetailsPage({
   params,
-}: LoteDetailsPageProps) {
+}: {
+  params: { id: string };
+}) {
   const lote = await getLoteById(params.id);
 
   if (!lote) return <div>Lote não encontrado</div>;

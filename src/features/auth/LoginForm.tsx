@@ -138,7 +138,7 @@ export function LoginForm() {
                   Entrando...
                 </>
               ) : (
-                "Entrar"
+                "Acessar Conta"
               )}
             </Button>
           </CardFooter>
