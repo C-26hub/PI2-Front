@@ -72,7 +72,7 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-[600px] py-[60px] px-[60px]">
+    <Card className="w-full max-w-[600px] py-[60px] px-[60px] border border-[#D9D9D9] shadow-lg">
       <CardHeader className="text-center">
         <Logo width={140} height={50} />
         <CardTitle className="text-2xl font-bold text-[#16424A]">

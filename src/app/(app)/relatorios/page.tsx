@@ -38,9 +38,9 @@ export default function RelatoriosPage() {
   return (
     <>
       <Header />
-      <main className="flex flex-col h-[calc(100vh-80px)] p-4 md:p-4 pt-6 bg-[url('/images/bg-alternative2.jpg')] bg-cover bg-center">
+      <main className="flex flex-col h-[calc(100vh-80px)] p-4 md:p-4 pt-6 bg-[url('/images/bg-alternative2.svg')] bg-cover bg-center">
         <div className="w-full max-w-[1200px] mx-auto flex flex-col flex-1">
-          <Card className="border-none shadow-md flex-1 flex flex-col overflow-hidden">
+          <Card className="shadow-md flex-1 flex flex-col overflow-hidden border border-[#9C9C9C]">
             <CardContent className="p-8 flex-1 overflow-y-auto">
               <div className="flex items-center justify-between mb-12 shrink-0">
                 <div>

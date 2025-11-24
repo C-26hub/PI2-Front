@@ -23,11 +23,11 @@ interface BeneficiariosTableProps {
 const getStatusColor = (status: BeneficiarioStatus) => {
   switch (status) {
     case "Ativo":
-      return "bg-[#D3EB76]"; 
+      return "bg-[#D7EB89]"; 
     case "Pendente":
-      return "bg-[#CCCCCC]";
+      return "bg-[#D4D4D4]";
     case "Inativo":
-      return "bg-[#FB5555]";
+      return "bg-[#FF8383]";
     default:
       return "bg-gray-400";
   }

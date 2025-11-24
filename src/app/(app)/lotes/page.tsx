@@ -25,7 +25,7 @@ export default async function LotesPage() {
   return (
     <>
       <Header />
-      <main className="flex flex-col h-[calc(100vh-80px)] p-4 md:p-4 pt-6 bg-[url('/images/login-bg.jpg')] bg-cover bg-center">
+      <main className="flex flex-col h-[calc(100vh-80px)] p-4 md:p-4 pt-6 bg-[url('/images/login-bg.svg')] bg-cover bg-center">
         <div className="w-full max-w-[1200px] mx-auto flex flex-col flex-1">
           <Card className="border-none shadow-md flex-1 flex flex-col">
             <CardContent className="py-8">
@@ -34,7 +34,7 @@ export default async function LotesPage() {
                   <h1 className="text-3xl font-heading font-medium tracking-tight">
                     Ciclo de Sementes
                   </h1>
-                  <p className="text-sm font-sans mt-1 font-medium ">
+                  <p className="text-sm font-sans mt-1 font-medium text-muted-foreground">
                     Gerencie a aquisição e distribuição dos lotes.
                   </p>
                 </div>

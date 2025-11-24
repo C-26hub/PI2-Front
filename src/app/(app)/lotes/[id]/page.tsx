@@ -15,7 +15,7 @@ import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card"; // Removi CardHeader/Title pois faremos na mão
+import { Card, CardContent } from "@/components/ui/card"; 
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 
@@ -29,13 +29,10 @@ function LoteStepper({ status }: { status: string }) {
 
   return (
     <div className="relative flex items-center justify-between w-full max-w-3xl mx-auto my-4">
-      {/* Linha de Fundo */}
       <div className="absolute left-0 top-1/2 h-1 w-full bg-gray-200 -z-10 rounded-full" />
 
-      {/* Passos */}
       {steps.map((step, index) => {
         const isCompleted = index < currentStepIndex;
-        // Atual se for IGUAL
         const isCurrent = index === currentStepIndex;
 
         return (
