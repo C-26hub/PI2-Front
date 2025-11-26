@@ -1,6 +1,9 @@
 import { Beneficiario } from "@/types/Beneficiario";
 
-// --- NOVOS TIPOS PARA OS DETALHES ---
+// URL do seu Backend Spring Boot
+const API_URL = "http://localhost:8080/api";
+
+// --- TIPOS PARA OS DETALHES ---
 
 export interface HistoricoEntrega {
   id: string;
@@ -8,7 +11,7 @@ export interface HistoricoEntrega {
   semente: string;
   lote: string;
   quantidade: number;
-  status: "Entregue" | "Devolvido";
+  status: "Entregue" | "Devolvido" | "Pendente";
 }
 
 export interface Observacao {
@@ -18,7 +21,7 @@ export interface Observacao {
   texto: string;
 }
 
-// Estendemos o tipo base para incluir os detalhes que só aparecem no perfil
+// Tipo completo para a tela de detalhes
 export interface BeneficiarioDetalhado extends Beneficiario {
   telefone: string;
   endereco: string;
@@ -27,94 +30,104 @@ export interface BeneficiarioDetalhado extends Beneficiario {
   observacoes: Observacao[];
 }
 
-// --- MOCK DATA (LISTA GERAL) ---
-const MOCK_LISTA: Beneficiario[] = [
-  {
-    id: "1",
-    nome: "Maria Lúcia dos Santos",
-    cpf: "***.123.456-**",
-    cidade: "Garanhuns",
-    associacao: "Assoc. Peq. Produtores Sítio Laranjeiras",
-    tecnicoResponsavel: "Jonas Pereira",
-    status: "Ativo",
-  },
-  {
-    id: "2",
-    nome: "José Cícero Almeida",
-    cpf: "***.789.012-**",
-    cidade: "Sertânia",
-    associacao: "Cooperativa Agroecológica",
-    tecnicoResponsavel: "Jonas Pereira",
-    status: "Ativo",
-  },
-  {
-    id: "3",
-    nome: "Antônia da Silva",
-    cpf: "***.345.678-**",
-    cidade: "Bom Conselho",
-    associacao: "-",
-    tecnicoResponsavel: "Carla Medeiros",
-    status: "Pendente",
-  },
-  {
-    id: "4",
-    nome: "Manoel Joaquim",
-    cpf: "***.901.234-**",
-    cidade: "Ouricuri",
-    associacao: "Sindicato Rural",
-    tecnicoResponsavel: "Marcos Andrade",
-    status: "Inativo",
-  },
-];
-
-// --- FUNÇÃO 1: LISTAR TODOS (Para a Tabela) ---
+// --- FUNÇÃO 1: LISTAR TODOS (GET REAL) ---
 export const getBeneficiarios = async (): Promise<Beneficiario[]> => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return MOCK_LISTA;
+  try {
+    const response = await fetch(`${API_URL}/beneficiarios`, { cache: "no-store" });
+    if (!response.ok) return [];
+    const data = await response.json();
+
+    return data.map((item: any) => ({
+      id: item.id.toString(),
+      nome: item.nome,
+      cpf: item.cpf,
+      cidade: item.endereco?.cidade || "N/A", // Pega do endereço aninhado
+      associacao: item.associacao,
+      tecnicoResponsavel: item.tecnicoResponsavel?.nome || "Sem técnico",
+      status: item.status,
+    }));
+  } catch (error) {
+    console.error("Erro ao buscar lista:", error);
+    return [];
+  }
 };
 
-// --- FUNÇÃO 2: OBTER DETALHES POR ID (Para o Perfil) ---
+// --- FUNÇÃO 2: OBTER DETALHES POR ID (GET REAL INTEGRADO) ---
 export const getBeneficiarioById = async (id: string): Promise<BeneficiarioDetalhado | null> => {
+  try {
+    // 1. Buscamos as 3 informações em paralelo para ser rápido
+    const [resBeneficiario, resEntregas, resObservacoes] = await Promise.all([
+      fetch(`${API_URL}/beneficiarios/${id}`, { cache: "no-store" }),
+      fetch(`${API_URL}/entregas/beneficiario/${id}`, { cache: "no-store" }),
+      fetch(`${API_URL}/observacoes/beneficiario/${id}`, { cache: "no-store" })
+    ]);
 
-  
-  await new Promise((resolve) => setTimeout(resolve, 500));
+    // Se não achar o beneficiário, retorna null (404)
+    if (!resBeneficiario.ok) return null;
 
-  console.log("--- DEBUG SERVICE ---");
-  console.log("Buscando ID:", id);
-  console.log("IDs disponíveis no Mock:", MOCK_LISTA.map(u => u.id));
-  
-  await new Promise((resolve) => setTimeout(resolve, 500));
+    const bData = await resBeneficiario.json();
+    const entregasData = resEntregas.ok ? await resEntregas.json() : [];
+    const obsData = resObservacoes.ok ? await resObservacoes.json() : [];
 
-  const basicUser = MOCK_LISTA.find((u) => u.id === id);
+    // 2. Mapeamento (Adapter) do JSON do Java para o formato do Front
+    
+    // Mapear Entregas
+    const historicoMapeado: HistoricoEntrega[] = entregasData.map((e: any) => ({
+      id: e.id.toString(),
+      data: e.dataEntrega ? new Date(e.dataEntrega).toLocaleDateString('pt-BR') : "-", 
+      semente: e.lote?.tipoSemente || "N/A",
+      lote: e.lote?.codigo || "N/A",
+      quantidade: e.qtdEntregue || 0,
+      status: e.status === "PENDENTE" ? "Pendente" : "Entregue" // Traduzindo Enum
+    }));
 
-  console.log("Encontrou?", basicUser ? "Sim" : "Não");
-  console.log("---------------------");
+    // Mapear Observações
+    const observacoesMapeadas: Observacao[] = obsData.map((o: any) => ({
+      id: o.id.toString(),
+      data: new Date(o.dataCriacao).toLocaleDateString('pt-BR'), // Formata data
+      tecnico: o.tecnicoAutor?.nome || "Técnico",
+      texto: o.texto
+    }));
 
-  if (!basicUser) return null;
+    // 3. Retorna o objeto completo
+    return {
+      id: bData.id.toString(),
+      nome: bData.nome,
+      cpf: bData.cpf,
+      status: bData.status,
+      cidade: bData.endereco?.cidade || "-",
+      associacao: bData.associacao || "-",
+      tecnicoResponsavel: bData.tecnicoResponsavel?.nome || "-",
+      
+      // Dados extras do detalhe
+      telefone: bData.telefone || "-",
+      endereco: bData.endereco?.rua || "-",
+      cep: bData.endereco?.cep || "-",
+      
+      // Listas
+      historico: historicoMapeado,
+      observacoes: observacoesMapeadas
+    };
 
-  // Retorna os dados básicos + os dados detalhados mockados
-  // (Na vida real, isso viria do banco de dados com todas as colunas)
-  return {
-    ...basicUser,
-    telefone: "(87) 99999-8888",
-    endereco: "Sítio Laranjeiras, Zona Rural",
-    cep: "55290-000",
-    historico: [
-      { id: "101", data: "12/10/2025", semente: "Feijão", lote: "FJN-25.11", quantidade: 5, status: "Entregue" },
-      { id: "102", data: "15/04/2025", semente: "Milho Crioulo", lote: "MLH-25.08", quantidade: 10, status: "Entregue" },
-      { id: "103", data: "02/02/2024", semente: "Sorgo", lote: "SRG-24.01", quantidade: 5, status: "Entregue" },
-    ],
-    observacoes: [
-      { id: "obs1", data: "12/10/2025", tecnico: "Jonas Pereira", texto: "Entrega realizada com sucesso. Agricultora relatou boa chuva na região e está otimista para o plantio." },
-      { id: "obs2", data: "15/04/2025", tecnico: "Jonas Pereira", texto: "Visita técnica de rotina. Orientação sobre espaçamento de plantio do milho." },
-      { id: "obs3", data: "10/01/2025", tecnico: "Carla Medeiros", texto: "Atualização cadastral realizada." },
-    ]
-  };
+  } catch (error) {
+    console.error("Erro ao buscar detalhes:", error);
+    return null;
+  }
 };
 
-// --- FUNÇÃO 3: CRIAR (Para o Formulário) ---
+// --- FUNÇÃO 3: CRIAR (POST REAL) ---
 export const createBeneficiario = async (data: any) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  console.log("MOCK CREATE:", data);
-  return { success: true };
+  try {
+    const response = await fetch(`${API_URL}/beneficiarios`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error("Erro ao criar");
+    return await response.json();
+  } catch (error) {
+    console.error("Erro no create:", error);
+    throw error;
+  }
 };

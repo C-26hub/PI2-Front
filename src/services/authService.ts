@@ -1,5 +1,6 @@
-// src/services/authService.ts
 import Cookies from "js-cookie";
+
+const API_URL = "http://localhost:8080/api/usuarios/login";
 
 export interface LoginResponse {
   success: boolean;
@@ -12,42 +13,39 @@ export interface LoginResponse {
   error?: string;
 }
 
-// PERFIL ÚNICO (GESTOR)
-const PERFIL_PADRAO = {
-  name: "Ana Cecília Lima",
-  role: "gestor" as const, // Força sempre ser gestor
-  token: "token-gestor-123",
-};
-
 export const login = async (email: string, senha: string): Promise<LoginResponse> => {
-  console.log("Login Simulado (Modo Teste de Usabilidade):", { email });
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, senha }),
+    });
 
-  // Simula um delay para dar feedback visual (spinner)
-  await new Promise((resolve) => setTimeout(resolve, 800));
+    if (!response.ok) {
+      return { success: false, error: "Email ou senha incorretos." };
+    }
 
-  // --- LÓGICA SIMPLIFICADA ---
-  // Aceita qualquer coisa e sempre retorna sucesso como Gestor.
-  return {
-    success: true,
-    user: {
-      ...PERFIL_PADRAO,
-      email: email, // Mantém o email que a pessoa digitou para parecer personalizado
-    },
-  };
+    const data = await response.json();
+
+    return {
+      success: true,
+      user: {
+        name: data.nome,
+        email: data.email,
+        role: data.role, 
+        token: data.token,
+      },
+    };
+
+  } catch (error) {
+    console.error("Erro de conexão:", error);
+    return { success: false, error: "Erro ao conectar com o servidor." };
+  }
 };
 
 export const logout = async (): Promise<void> => {
   Cookies.remove("ecosy_token");
   Cookies.remove("ecosy_user");
-};
-
-// Mocks auxiliares para não quebrar o resto
-export const requestPasswordReset = async (email: string) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return { success: true };
-};
-
-export const resetPassword = async (token: string, novaSenha: string) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return { success: true };
 };
