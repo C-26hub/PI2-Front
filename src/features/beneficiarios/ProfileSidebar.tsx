@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { User, History, ClipboardList, Loader2 } from "lucide-react";
+import { User, History, ClipboardList, Loader2, Settings } from "lucide-react";
 
 interface ProfileSidebarProps {
   beneficiarioId: string;
@@ -20,6 +20,7 @@ export function ProfileSidebar({ beneficiarioId }: ProfileSidebarProps) {
     { href: baseUrl, label: "Dados Cadastrais", icon: User, exact: true },
     { href: `${baseUrl}/historico`, label: "Histórico", icon: History },
     { href: `${baseUrl}/observacoes`, label: "Observações", icon: ClipboardList },
+    { href: `${baseUrl}/configuracoes`, label: "Sobre a conta", icon: Settings }
   ];
 
   useEffect(() => {

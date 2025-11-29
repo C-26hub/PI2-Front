@@ -131,3 +131,36 @@ export const createBeneficiario = async (data: any) => {
     throw error;
   }
 };
+
+export const updateBeneficiario = async (id: string, data: any) => {
+  try {
+    const response = await fetch(`${API_URL}/beneficiarios/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) throw new Error("Erro ao atualizar");
+    return await response.json();
+  } catch (error) {
+    console.error("Erro no update:", error);
+    throw error;
+  }
+};
+
+export const deleteBeneficiario = async (id: string): Promise<boolean> => {
+  try {
+    const response = await fetch(`${API_URL}/beneficiarios/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao excluir beneficiário");
+    }
+
+    return true; // Sucesso (204 No Content)
+  } catch (error) {
+    console.error("Erro ao excluir:", error);
+    return false;
+  }
+};
