@@ -1,4 +1,4 @@
-export type BeneficiarioStatus = "Ativo" | "Inativo" | "Pendente";
+export type BeneficiarioStatus = "ATIVO" | "INATIVO" | "PENDENTE";
 
 export interface Beneficiario {
   id: string;

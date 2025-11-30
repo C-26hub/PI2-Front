@@ -6,11 +6,15 @@ import { Header } from "@/components/layout/Header";
 import { Card, CardContent } from "@/components/ui/card";
 import { ProfileSidebar } from "@/features/beneficiarios/ProfileSidebar";
 import { getBeneficiarioById } from "@/services/beneficiariosService";
+import { BeneficiarioStatus } from "@/types/Beneficiario";
+import { getColorStatus, formatStatus } from "@/lib/beneficiarioUtils";
 
 interface LayoutProps {
   children: React.ReactNode;
   params: Promise<{ id: string }>;
 }
+
+
 
 export default async function BeneficiarioLayout({
   children,
@@ -69,8 +73,8 @@ export default async function BeneficiarioLayout({
                       <h1 className="text-3xl font-heading font-bold truncate">
                         {beneficiario.nome}
                       </h1>
-                      <Badge className="bg-[#EEFFAE] text-black border-none shadow-none text-sm px-3 py-1 shrink-0">
-                        {beneficiario.status}
+                      <Badge className={`${getColorStatus(beneficiario.status)} text-black border-none shadow-none text-sm px-3 py-1 shrink-0`}>
+                        {formatStatus(beneficiario.status)}
                       </Badge>
                     </div>
                   </div>

@@ -15,23 +15,12 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getColorStatus, formatStatus } from "@/lib/beneficiarioUtils";
 
 interface BeneficiariosTableProps {
   data: Beneficiario[];
 }
 
-const getStatusColor = (status: BeneficiarioStatus) => {
-  switch (status) {
-    case "Ativo":
-      return "bg-[#D7EB89]"; 
-    case "Pendente":
-      return "bg-[#D4D4D4]";
-    case "Inativo":
-      return "bg-[#FF8383]";
-    default:
-      return "bg-gray-400";
-  }
-};
 
 export function BeneficiariosTable({ data }: BeneficiariosTableProps) {
   const router = useRouter();
@@ -71,8 +60,8 @@ export function BeneficiariosTable({ data }: BeneficiariosTableProps) {
                 <TableCell className="text-muted-foreground py-4">{item.associacao}</TableCell>            
                 <TableCell className="py-4">{item.tecnicoResponsavel}</TableCell>               
                 <TableCell className="py-4">
-                  <Badge className={`${getStatusColor(item.status)} text-black border-none`}>
-                    {item.status}
+                  <Badge className={`${getColorStatus(item.status)} text-black border-none`}>
+                    {formatStatus(item.status)}
                   </Badge>
                 </TableCell>
                 
